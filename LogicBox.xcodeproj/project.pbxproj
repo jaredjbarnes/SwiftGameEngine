@@ -19,6 +19,7 @@
 		3069136D1F7457DD00178CAD /* LogicBoxTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3069136C1F7457DD00178CAD /* LogicBoxTests.swift */; };
 		30C5FFD01FAC2F3300D92835 /* TestSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30C5FFCF1FAC2F3300D92835 /* TestSystem.swift */; };
 		30CBC3621FAF6E7C00BFE88F /* Position.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30CBC3611FAF6E7C00BFE88F /* Position.swift */; };
+		30E0BB8C1FB8AB680066A399 /* BroadPhaseCollisionSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E0BB8B1FB8AB680066A399 /* BroadPhaseCollisionSystem.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,6 +57,7 @@
 		306913731F7457DD00178CAD /* LogicBoxUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LogicBoxUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		30C5FFCF1FAC2F3300D92835 /* TestSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestSystem.swift; sourceTree = "<group>"; };
 		30CBC3611FAF6E7C00BFE88F /* Position.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Position.swift; sourceTree = "<group>"; };
+		30E0BB8B1FB8AB680066A399 /* BroadPhaseCollisionSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BroadPhaseCollisionSystem.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -143,6 +145,7 @@
 			isa = PBXGroup;
 			children = (
 				30C5FFCF1FAC2F3300D92835 /* TestSystem.swift */,
+				30E0BB8B1FB8AB680066A399 /* BroadPhaseCollisionSystem.swift */,
 			);
 			path = systems;
 			sourceTree = "<group>";
@@ -300,6 +303,7 @@
 				3055D91E1F8C758B008A8815 /* EntityDelegate.swift in Sources */,
 				3055D91C1F8C713C008A8815 /* Component.swift in Sources */,
 				3055D9181F8C6D95008A8815 /* Entity.swift in Sources */,
+				30E0BB8C1FB8AB680066A399 /* BroadPhaseCollisionSystem.swift in Sources */,
 				3069135A1F7457DD00178CAD /* GameViewController.swift in Sources */,
 				3055D9131F8C6472008A8815 /* World.swift in Sources */,
 				30CBC3621FAF6E7C00BFE88F /* Position.swift in Sources */,

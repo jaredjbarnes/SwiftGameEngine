@@ -40,6 +40,25 @@ public class Entity {
         return nil;
     }
     
+    public func hasComponents(withTypes types: Array<String>) -> Bool {
+        for type in types {
+            var isIn = false;
+            
+            for component in components {
+                if component.type == type {
+                    isIn = true
+                    break
+                }
+            }
+            
+            if isIn == false {
+                return false
+            }
+        }
+        
+        return true;
+    }
+    
     public func remove (component: Component) {
         let index = self.components.index(where: {(localComponent: Component) -> Bool in
             return component === localComponent;

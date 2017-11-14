@@ -17,10 +17,10 @@ public class World : EntityDelegate {
     private var services: Array<Service> = Array()
     private var timespans: Array<Double> = Array()
     
-    public var rect: CGRect
+    public var size: CGRect
     
     public init (with rect: CGRect){
-        self.rect = rect
+        self.size = rect
     }
     
     public func add (entity: Entity) {
@@ -93,7 +93,7 @@ public class World : EntityDelegate {
         if timer == nil {
             lastPlayTimestamp = CFAbsoluteTimeGetCurrent()
             timer = Timer(
-                timeInterval: 0.14,
+                timeInterval: 0.16,
                 target: self,
                 selector: #selector(self.update),
                 userInfo: nil,
@@ -132,8 +132,9 @@ public class World : EntityDelegate {
     
     @objc
     public func update (){
+        let currentTime = getTime()
         for system in systems {
-            system.update()
+            system.update(withTime: currentTime)
         }
     }
 }
