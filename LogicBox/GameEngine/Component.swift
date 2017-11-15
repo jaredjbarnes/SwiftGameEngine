@@ -9,9 +9,5 @@
 import Foundation
 
 public class Component {
-    public var type : String
-    
-    public init(withType type: String){
-        self.type = type
-    }
+    public var type : String = "unknown"
 }

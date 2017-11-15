@@ -20,6 +20,7 @@
 		30C5FFD01FAC2F3300D92835 /* TestSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30C5FFCF1FAC2F3300D92835 /* TestSystem.swift */; };
 		30CBC3621FAF6E7C00BFE88F /* Position.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30CBC3611FAF6E7C00BFE88F /* Position.swift */; };
 		30E0BB8C1FB8AB680066A399 /* BroadPhaseCollisionSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E0BB8B1FB8AB680066A399 /* BroadPhaseCollisionSystem.swift */; };
+		30E0BB901FBC08900066A399 /* Size.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E0BB8F1FBC08900066A399 /* Size.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -58,6 +59,7 @@
 		30C5FFCF1FAC2F3300D92835 /* TestSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestSystem.swift; sourceTree = "<group>"; };
 		30CBC3611FAF6E7C00BFE88F /* Position.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Position.swift; sourceTree = "<group>"; };
 		30E0BB8B1FB8AB680066A399 /* BroadPhaseCollisionSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BroadPhaseCollisionSystem.swift; sourceTree = "<group>"; };
+		30E0BB8F1FBC08900066A399 /* Size.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Size.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -161,6 +163,7 @@
 			isa = PBXGroup;
 			children = (
 				30CBC3611FAF6E7C00BFE88F /* Position.swift */,
+				30E0BB8F1FBC08900066A399 /* Size.swift */,
 			);
 			path = components;
 			sourceTree = "<group>";
@@ -301,6 +304,7 @@
 				303924ED1FA04F8E003004A1 /* Service.swift in Sources */,
 				30C5FFD01FAC2F3300D92835 /* TestSystem.swift in Sources */,
 				3055D91E1F8C758B008A8815 /* EntityDelegate.swift in Sources */,
+				30E0BB901FBC08900066A399 /* Size.swift in Sources */,
 				3055D91C1F8C713C008A8815 /* Component.swift in Sources */,
 				3055D9181F8C6D95008A8815 /* Entity.swift in Sources */,
 				30E0BB8C1FB8AB680066A399 /* BroadPhaseCollisionSystem.swift in Sources */,

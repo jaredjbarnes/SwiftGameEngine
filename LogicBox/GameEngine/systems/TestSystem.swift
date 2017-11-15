@@ -48,7 +48,7 @@ public class TestSystem : System {
         invokedRemovedComponentCount += 1
     }
     
-    public func update(withTime time: Double) {
+    public func update(with time: Double) {
         invokedUpdatedCount += 1
     }
     

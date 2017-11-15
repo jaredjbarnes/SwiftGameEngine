@@ -134,7 +134,7 @@ public class World : EntityDelegate {
     public func update (){
         let currentTime = getTime()
         for system in systems {
-            system.update(withTime: currentTime)
+            system.update(with: currentTime)
         }
     }
 }

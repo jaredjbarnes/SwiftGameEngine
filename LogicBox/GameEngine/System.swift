@@ -16,5 +16,5 @@ public protocol System : class {
     func deactivated(on world: World)
     func removed(entity: Entity)
     func removed(component: Component, from entity: Entity)
-    func update(withTime time: Double)
+    func update(with time: Double)
 }

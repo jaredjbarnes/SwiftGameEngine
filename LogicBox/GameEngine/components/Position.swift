@@ -8,12 +8,14 @@
 
 import Foundation
 
-public class Position : Component {
+public class Position: Component {
     public var x: Int = 0
     public var y: Int = 0
+    public var isDirty: Bool = false
     
-    init(){
-        super.init(withType: "position")
+    override init(){
+        super.init()
+        self.type = "position"
     }
     
     convenience init(withX x: Int, andY y: Int){

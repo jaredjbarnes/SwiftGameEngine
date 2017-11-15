@@ -30,10 +30,10 @@ public class Entity {
         return self.components.map{$0};
     }
     
-    public func getComponentWithType<T> () -> T? {
+    public func getComponent(withType type: String) -> Component? {
         for component in self.components {
-            if component is T {
-                return component as? T
+            if component.type == type  {
+                return component
             }
         }
         
@@ -51,7 +51,7 @@ public class Entity {
                 }
             }
             
-            if isIn == false {
+            if !isIn {
                 return false
             }
         }

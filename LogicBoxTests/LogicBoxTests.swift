@@ -30,6 +30,31 @@ class LogicBoxTests: XCTestCase {
         XCTAssert(system.invokedActivatedCount == 1)
     }
     
+    func testHasComponents(){
+        let entity = Entity(withType: "test")
+        let size = Size()
+        let position = Position()
+        
+        entity.add(component: position)
+        entity.add(component: size)
+        
+        XCTAssert(entity.hasComponents(withTypes: ["position", "size"]))
+        
+        entity.remove(component: position)
+        
+        XCTAssert(!entity.hasComponents(withTypes: ["position", "size"]))
+    }
+    
+    func testAddAndGetComnponent(){
+        let entity = Entity(withType: "test")
+        entity.add(component: Position(withX: 0, andY: 1))
+        
+        let position = entity.getComponent(withType: "position") as? Position
+        
+        XCTAssert(position?.x == 0)
+        XCTAssert(position?.y == 1)
+    }
+    
     func testDeactivated() {
         let system = TestSystem()
         world?.add(system: system)
