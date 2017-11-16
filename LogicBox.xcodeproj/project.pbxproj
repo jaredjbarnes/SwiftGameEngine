@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		301779691FBD490D00D8F73E /* EntityTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301779681FBD490D00D8F73E /* EntityTests.swift */; };
 		3017796B1FBD4BD400D8F73E /* SystemLifeCycleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3017796A1FBD4BD400D8F73E /* SystemLifeCycleTests.swift */; };
+		3017796D1FBD5CD900D8F73E /* BroadPhaseCollidable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3017796C1FBD5CD900D8F73E /* BroadPhaseCollidable.swift */; };
 		303924ED1FA04F8E003004A1 /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 303924EC1FA04F8E003004A1 /* Service.swift */; };
 		3055D9131F8C6472008A8815 /* World.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3055D9121F8C6472008A8815 /* World.swift */; };
 		3055D9181F8C6D95008A8815 /* Entity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3055D9171F8C6D95008A8815 /* Entity.swift */; };
@@ -44,6 +45,7 @@
 /* Begin PBXFileReference section */
 		301779681FBD490D00D8F73E /* EntityTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityTests.swift; sourceTree = "<group>"; };
 		3017796A1FBD4BD400D8F73E /* SystemLifeCycleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemLifeCycleTests.swift; sourceTree = "<group>"; };
+		3017796C1FBD5CD900D8F73E /* BroadPhaseCollidable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BroadPhaseCollidable.swift; sourceTree = "<group>"; };
 		303924EC1FA04F8E003004A1 /* Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
 		3055D9121F8C6472008A8815 /* World.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = World.swift; sourceTree = "<group>"; };
 		3055D9171F8C6D95008A8815 /* Entity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Entity.swift; sourceTree = "<group>"; };
@@ -167,6 +169,7 @@
 			children = (
 				30CBC3611FAF6E7C00BFE88F /* Position.swift */,
 				30E0BB8F1FBC08900066A399 /* Size.swift */,
+				3017796C1FBD5CD900D8F73E /* BroadPhaseCollidable.swift */,
 			);
 			path = components;
 			sourceTree = "<group>";
@@ -303,6 +306,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3017796D1FBD5CD900D8F73E /* BroadPhaseCollidable.swift in Sources */,
 				3055D91A1F8C6E13008A8815 /* System.swift in Sources */,
 				303924ED1FA04F8E003004A1 /* Service.swift in Sources */,
 				30C5FFD01FAC2F3300D92835 /* TestSystem.swift in Sources */,

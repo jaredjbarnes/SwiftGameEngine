@@ -42,6 +42,21 @@ public class BroadPhaseCollisionSystem : System {
         self.dirtyCellPositions = dirtyCellPositions + filteredCellPositions
     }
     
+    private func does(entity: Entity, intersectWith otherEntity: Entity) -> Bool {
+        let positionA = entity.getComponent(withType: "position") as! Position
+        let positionB = otherEntity.getComponent(withType: "position") as! Position
+        let sizeA = entity.getComponent(withType: "size") as! Size
+        let sizeB = otherEntity.getComponent(withType: "size") as! Size
+        
+        let top = max(positionA.y, positionB.y)
+        let bottom = min(positionA.y + sizeA.height, positionB.y + sizeB.height)
+        let left = max(positionA.x, positionB.x)
+        let right = min(positionA.x + sizeA.width, positionB.x + sizeB.width)
+        
+        return top < bottom && left < right
+        
+    }
+    
     private func findDirtyCells(){
         let dirtyEntries = entities.filter { (entry) -> Bool in
             let position = entry.value.getComponent(withType: "position") as! Position
@@ -126,8 +141,23 @@ public class BroadPhaseCollisionSystem : System {
         }
     }
     
-    private func updateGridCells(at: Array<CellPosition>){
-        
+    private func updateGridCells(at cellPositions: Array<CellPosition>){
+        for cellPosition in cellPositions {
+            let cell = getGridCell(for: cellPosition)
+            
+            for entry in cell.enumerated() {
+                for otherEntity in cell[..<entry.offset]{
+                    if does(entity: entry.element, intersectWith: otherEntity) {
+                        
+                        
+                        let collision = BroadPhaseCollision(withEntityId: otherEntity.id)
+                        let otherCollision = BroadPhaseCollision(withEntityId: entry.element.id)
+                        
+                        
+                    }
+                }
+            }
+        }
     }
     
     init(with cellSize: Int){
