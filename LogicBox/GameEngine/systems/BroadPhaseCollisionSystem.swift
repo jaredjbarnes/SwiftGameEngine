@@ -42,6 +42,16 @@ public class BroadPhaseCollisionSystem : System {
         self.dirtyCellPositions = dirtyCellPositions + filteredCellPositions
     }
     
+    private func cleanCollisions(onEntity entity: Entity){
+        let collidable = entity.getComponent(withType: "broad-phase-collidable") as? BroadPhaseCollidable
+        
+        if (collidable != nil){
+            collidable?.activeCollisions = (collidable?.activeCollisions.filter({ (collision) -> Bool in
+                return collision.timestamp != currentTime
+            }))!
+        }
+    }
+    
     private func does(entity: Entity, intersectWith otherEntity: Entity) -> Bool {
         let positionA = entity.getComponent(withType: "position") as! Position
         let positionB = otherEntity.getComponent(withType: "position") as! Position
@@ -110,6 +120,14 @@ public class BroadPhaseCollisionSystem : System {
         return cellPositions
     }
     
+    private func getCollision(of entity: Entity, onEntity otherEntity: Entity) -> BroadPhaseCollision? {
+        let collidable = otherEntity.getComponent(withType: "broad-phase-collidable") as? BroadPhaseCollidable
+        
+        return collidable?.activeCollisions.filter( { (collision) -> Bool in
+            return collision.entityId == entity.id
+        }).first
+    }
+    
     private func getGridCell(for cellPosition: CellPosition) -> Array<Entity> {
         var column = grid[cellPosition.columnIndex]
         
@@ -142,20 +160,45 @@ public class BroadPhaseCollisionSystem : System {
     }
     
     private func updateGridCells(at cellPositions: Array<CellPosition>){
+        var affectedEntities = Dictionary<String, Entity>()
+        
         for cellPosition in cellPositions {
             let cell = getGridCell(for: cellPosition)
             
             for entry in cell.enumerated() {
+                affectedEntities[entry.element.id] = entry.element
+                
                 for otherEntity in cell[..<entry.offset]{
                     if does(entity: entry.element, intersectWith: otherEntity) {
                         
+                        var collision = getCollision(of: otherEntity, onEntity: entry.element)
+                        var otherCollision = getCollision(of: entry.element, onEntity: otherEntity)
                         
-                        let collision = BroadPhaseCollision(withEntityId: otherEntity.id)
-                        let otherCollision = BroadPhaseCollision(withEntityId: entry.element.id)
+                        if collision == nil {
+                            let collidable = otherEntity.getComponent(withType: "broad-phase-collidable") as? BroadPhaseCollidable
+                            collision = BroadPhaseCollision(withEntityId: otherEntity.id)
+                            collision?.startTimestamp = currentTime
+                            
+                            collidable?.activeCollisions.append(collision!)
+                        }
                         
+                        if otherCollision == nil {
+                            let collidable = entry.element.getComponent(withType: "broad-phase-collidable") as? BroadPhaseCollidable
+                            otherCollision = BroadPhaseCollision(withEntityId: entry.element.id)
+                            otherCollision?.startTimestamp = currentTime
+                            
+                            collidable?.activeCollisions.append(otherCollision!)
+                        }
+                        
+                        collision?.timestamp = currentTime
+                        otherCollision?.timestamp = currentTime
                         
                     }
                 }
+            }
+            
+            for (_, value) in affectedEntities {
+                cleanCollisions(onEntity: value)
             }
         }
     }
