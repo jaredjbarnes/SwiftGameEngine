@@ -11,8 +11,8 @@ import Foundation
 public class BroadPhaseCollision {
     public var entityId: String
     public var startTimestamp: Double = 0
-    public var endTimestamp: Double = 0
     public var timestamp: Double = 0
+    public var cellPosition: CellPosition?
     
     init (withEntityId: String){
         entityId = withEntityId

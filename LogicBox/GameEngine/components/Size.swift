@@ -11,7 +11,7 @@ import Foundation
 public class Size: Component {
     public var width: Int = 0
     public var height: Int = 0
-    public var isDirty: Bool = false
+    public var isDirty: Bool = true
     
     override init(){
         super.init()

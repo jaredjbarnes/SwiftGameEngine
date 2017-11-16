@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class CellPosition {
+public class CellPosition {
     public var columnIndex: Int = 0
     public var rowIndex: Int = 0
     
@@ -26,10 +26,23 @@ public class BroadPhaseCollisionSystem : System {
     private var currentTime: Double = 0
     private var grid: Dictionary<Int, Dictionary<Int, Array<Entity>>> = Dictionary()
     private var dirtyCellPositions: Array<CellPosition> = Array()
-    private let dependencies: Array<String> = ["position", "size", "collidable"]
+    private let dependencies: Array<String> = ["position", "size", "broad-phase-collidable"]
     
     public var name: String
     public var cellSize: Int = 200
+    
+    
+    private func add(entity: Entity, toCellPosition cellPosition: CellPosition){
+        if grid[cellPosition.columnIndex] == nil {
+            grid[cellPosition.columnIndex] = Dictionary<Int, Array<Entity>>()
+        }
+
+        if grid[cellPosition.columnIndex]?[cellPosition.rowIndex] == nil {
+            grid[cellPosition.columnIndex]?[cellPosition.rowIndex] = Array<Entity>()
+        }
+        
+        grid[cellPosition.columnIndex]?[cellPosition.rowIndex]?.append(entity)
+    }
     
     private func add(cellPositions: Array<CellPosition>, to dirtyCellPositions: Array<CellPosition>){
         let filteredCellPositions = cellPositions.filter { (cellPosition) -> Bool in
@@ -42,12 +55,14 @@ public class BroadPhaseCollisionSystem : System {
         self.dirtyCellPositions = dirtyCellPositions + filteredCellPositions
     }
     
-    private func cleanCollisions(onEntity entity: Entity){
+    private func cleanCollisions(onEntity entity: Entity, forCellPosition: CellPosition){
         let collidable = entity.getComponent(withType: "broad-phase-collidable") as? BroadPhaseCollidable
         
         if (collidable != nil){
             collidable?.activeCollisions = (collidable?.activeCollisions.filter({ (collision) -> Bool in
-                return collision.timestamp != currentTime
+                return collision.timestamp == currentTime ||
+                    (collision.cellPosition?.columnIndex != forCellPosition.columnIndex &&
+                    collision.cellPosition?.rowIndex != forCellPosition.rowIndex)
             }))!
         }
     }
@@ -128,78 +143,63 @@ public class BroadPhaseCollisionSystem : System {
         }).first
     }
     
-    private func getGridCell(for cellPosition: CellPosition) -> Array<Entity> {
-        var column = grid[cellPosition.columnIndex]
-        
-        if column == nil {
-            grid[cellPosition.columnIndex] = Dictionary<Int, Array<Entity>>()
-            column = grid[cellPosition.columnIndex]
-        }
-        
-        var cell = column?[cellPosition.rowIndex]
-        
-        if cell == nil {
-            column?[cellPosition.rowIndex] = Array<Entity>()
-            cell = column?[cellPosition.rowIndex]
-        }
-        
-        return cell!
-    }
-    
     private func remove(entity: Entity, fromCellPositions cellPositions: Array<CellPosition>){
         add(cellPositions: cellPositions, to: dirtyCellPositions)
         
         for cellPosition in cellPositions {
-            var cell = getGridCell(for: cellPosition)
-            let index = cell.index(where: { $0 === entity })
+            var cell = grid[cellPosition.columnIndex]?[cellPosition.rowIndex]
             
-            if index != nil {
-                cell.remove(at: index!)
+            if (cell != nil){
+                let index = cell!.index(where: { $0 === entity })
+                
+                if index != nil {
+                    cell!.remove(at: index!)
+                }
             }
         }
     }
     
     private func updateGridCells(at cellPositions: Array<CellPosition>){
-        var affectedEntities = Dictionary<String, Entity>()
-        
         for cellPosition in cellPositions {
-            let cell = getGridCell(for: cellPosition)
+            let cell = grid[cellPosition.columnIndex]?[cellPosition.rowIndex]
             
-            for entry in cell.enumerated() {
-                affectedEntities[entry.element.id] = entry.element
-                
-                for otherEntity in cell[..<entry.offset]{
-                    if does(entity: entry.element, intersectWith: otherEntity) {
-                        
-                        var collision = getCollision(of: otherEntity, onEntity: entry.element)
-                        var otherCollision = getCollision(of: entry.element, onEntity: otherEntity)
-                        
-                        if collision == nil {
-                            let collidable = otherEntity.getComponent(withType: "broad-phase-collidable") as? BroadPhaseCollidable
-                            collision = BroadPhaseCollision(withEntityId: otherEntity.id)
-                            collision?.startTimestamp = currentTime
+            if (cell != nil){
+                for entry in cell!.enumerated() {
+                    
+                    for otherEntity in cell![..<entry.offset]{
+                        if does(entity: entry.element, intersectWith: otherEntity) {
                             
-                            collidable?.activeCollisions.append(collision!)
-                        }
-                        
-                        if otherCollision == nil {
-                            let collidable = entry.element.getComponent(withType: "broad-phase-collidable") as? BroadPhaseCollidable
-                            otherCollision = BroadPhaseCollision(withEntityId: entry.element.id)
-                            otherCollision?.startTimestamp = currentTime
+                            var collision = getCollision(of: otherEntity, onEntity: entry.element)
+                            var otherCollision = getCollision(of: entry.element, onEntity: otherEntity)
                             
-                            collidable?.activeCollisions.append(otherCollision!)
+                            if collision == nil {
+                                let collidable = otherEntity.getComponent(withType: "broad-phase-collidable") as? BroadPhaseCollidable
+                                collision = BroadPhaseCollision(withEntityId: entry.element.id)
+                                collision?.startTimestamp = currentTime
+                                collision?.cellPosition = cellPosition
+                                
+                                collidable?.activeCollisions.append(collision!)
+                            }
+                            
+                            if otherCollision == nil {
+                                let collidable = entry.element.getComponent(withType: "broad-phase-collidable") as? BroadPhaseCollidable
+                                otherCollision = BroadPhaseCollision(withEntityId: otherEntity.id)
+                                otherCollision?.startTimestamp = currentTime
+                                otherCollision?.cellPosition = cellPosition
+                                
+                                collidable?.activeCollisions.append(otherCollision!)
+                            }
+                            
+                            collision?.timestamp = currentTime
+                            otherCollision?.timestamp = currentTime
+                            
                         }
-                        
-                        collision?.timestamp = currentTime
-                        otherCollision?.timestamp = currentTime
-                        
                     }
+                    
+                    cleanCollisions(onEntity: entry.element, forCellPosition: cellPosition)
                 }
             }
-            
-            for (_, value) in affectedEntities {
-                cleanCollisions(onEntity: value)
-            }
+           
         }
     }
     
@@ -226,8 +226,7 @@ public class BroadPhaseCollisionSystem : System {
             cellPositionsOfEntitiesById[entity.id] = cellPositions
             
             for cellPosition in cellPositions {
-                var cell = getGridCell(for: cellPosition)
-                cell.append(entity)
+                add(entity: entity, toCellPosition: cellPosition)
             }
         }
     }

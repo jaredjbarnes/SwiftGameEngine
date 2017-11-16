@@ -11,7 +11,7 @@ import Foundation
 public class Position: Component {
     public var x: Int = 0
     public var y: Int = 0
-    public var isDirty: Bool = false
+    public var isDirty: Bool = true
     
     override init(){
         super.init()
