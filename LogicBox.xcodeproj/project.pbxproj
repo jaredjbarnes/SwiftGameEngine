@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		301779691FBD490D00D8F73E /* EntityTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301779681FBD490D00D8F73E /* EntityTests.swift */; };
+		3017796B1FBD4BD400D8F73E /* SystemLifeCycleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3017796A1FBD4BD400D8F73E /* SystemLifeCycleTests.swift */; };
 		303924ED1FA04F8E003004A1 /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 303924EC1FA04F8E003004A1 /* Service.swift */; };
 		3055D9131F8C6472008A8815 /* World.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3055D9121F8C6472008A8815 /* World.swift */; };
 		3055D9181F8C6D95008A8815 /* Entity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3055D9171F8C6D95008A8815 /* Entity.swift */; };
@@ -16,7 +18,6 @@
 		306913521F7457DD00178CAD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 306913511F7457DD00178CAD /* AppDelegate.swift */; };
 		3069135A1F7457DD00178CAD /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 306913591F7457DD00178CAD /* GameViewController.swift */; };
 		3069135F1F7457DD00178CAD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3069135E1F7457DD00178CAD /* Assets.xcassets */; };
-		3069136D1F7457DD00178CAD /* LogicBoxTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3069136C1F7457DD00178CAD /* LogicBoxTests.swift */; };
 		30C5FFD01FAC2F3300D92835 /* TestSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30C5FFCF1FAC2F3300D92835 /* TestSystem.swift */; };
 		30CBC3621FAF6E7C00BFE88F /* Position.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30CBC3611FAF6E7C00BFE88F /* Position.swift */; };
 		30E0BB8C1FB8AB680066A399 /* BroadPhaseCollisionSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E0BB8B1FB8AB680066A399 /* BroadPhaseCollisionSystem.swift */; };
@@ -41,6 +42,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		301779681FBD490D00D8F73E /* EntityTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityTests.swift; sourceTree = "<group>"; };
+		3017796A1FBD4BD400D8F73E /* SystemLifeCycleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemLifeCycleTests.swift; sourceTree = "<group>"; };
 		303924EC1FA04F8E003004A1 /* Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
 		3055D9121F8C6472008A8815 /* World.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = World.swift; sourceTree = "<group>"; };
 		3055D9171F8C6D95008A8815 /* Entity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Entity.swift; sourceTree = "<group>"; };
@@ -53,7 +56,6 @@
 		3069135E1F7457DD00178CAD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		306913631F7457DD00178CAD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		306913681F7457DD00178CAD /* LogicBoxTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LogicBoxTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		3069136C1F7457DD00178CAD /* LogicBoxTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogicBoxTests.swift; sourceTree = "<group>"; };
 		3069136E1F7457DD00178CAD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		306913731F7457DD00178CAD /* LogicBoxUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LogicBoxUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		30C5FFCF1FAC2F3300D92835 /* TestSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestSystem.swift; sourceTree = "<group>"; };
@@ -137,8 +139,9 @@
 		3069136B1F7457DD00178CAD /* LogicBoxTests */ = {
 			isa = PBXGroup;
 			children = (
-				3069136C1F7457DD00178CAD /* LogicBoxTests.swift */,
 				3069136E1F7457DD00178CAD /* Info.plist */,
+				301779681FBD490D00D8F73E /* EntityTests.swift */,
+				3017796A1FBD4BD400D8F73E /* SystemLifeCycleTests.swift */,
 			);
 			path = LogicBoxTests;
 			sourceTree = "<group>";
@@ -319,7 +322,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3069136D1F7457DD00178CAD /* LogicBoxTests.swift in Sources */,
+				3017796B1FBD4BD400D8F73E /* SystemLifeCycleTests.swift in Sources */,
+				301779691FBD490D00D8F73E /* EntityTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

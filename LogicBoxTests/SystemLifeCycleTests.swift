@@ -9,13 +9,13 @@
 import XCTest
 @testable import LogicBox
 
-class LogicBoxTests: XCTestCase {
+class SystemLifeCycleTests: XCTestCase {
     var world: World?
     
     override func setUp() {
         super.setUp()
         
-        world = World(with: CGRect())
+        world = World()
     }
     
     override func tearDown() {
@@ -26,33 +26,8 @@ class LogicBoxTests: XCTestCase {
     func testActivated() {
         let system = TestSystem()
         world?.add(system: system)
-    
+        
         XCTAssert(system.invokedActivatedCount == 1)
-    }
-    
-    func testHasComponents(){
-        let entity = Entity(withType: "test")
-        let size = Size()
-        let position = Position()
-        
-        entity.add(component: position)
-        entity.add(component: size)
-        
-        XCTAssert(entity.hasComponents(withTypes: ["position", "size"]))
-        
-        entity.remove(component: position)
-        
-        XCTAssert(!entity.hasComponents(withTypes: ["position", "size"]))
-    }
-    
-    func testAddAndGetComnponent(){
-        let entity = Entity(withType: "test")
-        entity.add(component: Position(withX: 0, andY: 1))
-        
-        let position = entity.getComponent(withType: "position") as? Position
-        
-        XCTAssert(position?.x == 0)
-        XCTAssert(position?.y == 1)
     }
     
     func testDeactivated() {
@@ -71,7 +46,7 @@ class LogicBoxTests: XCTestCase {
         
         world?.add(system: system)
         world?.add(entity: entity)
-
+        
         entity.add(component: position)
         entity.remove(component: position)
         
@@ -125,3 +100,4 @@ class LogicBoxTests: XCTestCase {
     }
     
 }
+

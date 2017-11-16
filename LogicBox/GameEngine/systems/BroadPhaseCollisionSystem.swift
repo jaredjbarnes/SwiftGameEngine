@@ -25,10 +25,44 @@ public class BroadPhaseCollisionSystem : System {
     private var world: World?
     private var currentTime: Double = 0
     private var grid: Dictionary<Int, Dictionary<Int, Array<Entity>>> = Dictionary()
+    private var dirtyCellPositions: Array<CellPosition> = Array()
     private let dependencies: Array<String> = ["position", "size", "collidable"]
     
     public var name: String
     public var cellSize: Int = 200
+    
+    private func add(cellPositions: Array<CellPosition>, to dirtyCellPositions: Array<CellPosition>){
+        let filteredCellPositions = cellPositions.filter { (cellPosition) -> Bool in
+            return !dirtyCellPositions.contains(where: { (dirtyCellPosition) -> Bool in
+                return cellPosition.columnIndex == dirtyCellPosition.columnIndex &&
+                    cellPosition.rowIndex == dirtyCellPosition.rowIndex
+            })
+        }
+        
+        self.dirtyCellPositions = dirtyCellPositions + filteredCellPositions
+    }
+    
+    private func findDirtyCells(){
+        let dirtyEntries = entities.filter { (entry) -> Bool in
+            let position = entry.value.getComponent(withType: "position") as! Position
+            let size = entry.value.getComponent(withType: "size") as! Size
+            
+            return position.isDirty || size.isDirty
+        }
+        
+        for dirtyEntry in dirtyEntries {
+            let lastCellPositions = cellPositionsOfEntitiesById[dirtyEntry.value.id]
+            let newCellPositions = getCellPositions(for: dirtyEntry.value)
+            
+            if (lastCellPositions != nil){
+                add(cellPositions: lastCellPositions!, to: dirtyCellPositions)
+            }
+            
+            add(cellPositions: newCellPositions, to: dirtyCellPositions)
+            
+            cellPositionsOfEntitiesById[dirtyEntry.value.id] = newCellPositions
+        }
+    }
     
     private func getCellPositions(for entity: Entity) -> Array<CellPosition>{
         let position = entity.getComponent(withType: "position") as! Position
@@ -79,6 +113,23 @@ public class BroadPhaseCollisionSystem : System {
         return cell!
     }
     
+    private func remove(entity: Entity, fromCellPositions cellPositions: Array<CellPosition>){
+        add(cellPositions: cellPositions, to: dirtyCellPositions)
+        
+        for cellPosition in cellPositions {
+            var cell = getGridCell(for: cellPosition)
+            let index = cell.index(where: { $0 === entity })
+            
+            if index != nil {
+                cell.remove(at: index!)
+            }
+        }
+    }
+    
+    private func updateGridCells(at: Array<CellPosition>){
+        
+    }
+    
     init(with cellSize: Int){
         self.cellSize = cellSize
         self.name = "Broad Phase Collision System"
@@ -97,6 +148,7 @@ public class BroadPhaseCollisionSystem : System {
             entities[entity.id] = entity
             
             let cellPositions = getCellPositions(for: entity)
+            add(cellPositions: cellPositions, to: dirtyCellPositions)
             
             cellPositionsOfEntitiesById[entity.id] = cellPositions
             
@@ -112,16 +164,23 @@ public class BroadPhaseCollisionSystem : System {
     }
     
     public func deactivated(on world: World) {
-       self.world = world
-       entities = Dictionary<String, Entity>()
-       cellPositionsOfEntitiesById = Dictionary()
-       currentTime = 0
-       grid = Dictionary()
+        self.world = world
+        entities = Dictionary<String, Entity>()
+        cellPositionsOfEntitiesById = Dictionary()
+        currentTime = 0
+        grid = Dictionary()
     }
     
     public func removed(entity: Entity) {
         if entities[entity.id] != nil {
+            let cellPositions = cellPositionsOfEntitiesById[entity.id]
+            
+            if cellPositions != nil {
+                remove(entity: entity, fromCellPositions: cellPositions!)
+            }
+            
             entities.removeValue(forKey: entity.id)
+            cellPositionsOfEntitiesById.removeValue(forKey: entity.id)
         }
     }
     
@@ -133,7 +192,8 @@ public class BroadPhaseCollisionSystem : System {
     
     public func update(with currentTime: Double) {
         self.currentTime = currentTime
-        
-        
+        findDirtyCells()
+        updateGridCells(at: dirtyCellPositions)
+        dirtyCellPositions = Array()
     }
 }

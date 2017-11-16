@@ -17,12 +17,6 @@ public class World : EntityDelegate {
     private var services: Array<Service> = Array()
     private var timespans: Array<Double> = Array()
     
-    public var size: CGRect
-    
-    public init (with rect: CGRect){
-        self.size = rect
-    }
-    
     public func add (entity: Entity) {
         if entities[entity.id] == nil {
             entities.updateValue(entity, forKey: entity.id)
